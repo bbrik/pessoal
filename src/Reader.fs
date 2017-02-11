@@ -4,8 +4,8 @@ open FSharp.Data
 open Util
 
 
-type NumbersMovs = CsvProvider<"NumbersMovSample.csv", ";", 
-                                Schema="date,,decimal,,,,decimal option", 
+type NumbersMovs = CsvProvider<"NumbersMovSample.csv", ";",
+                                Schema="date,,decimal,,,,decimal option",
                                 Culture="pt-BR">
 
 let parseString s = NumbersMovs.Parse s
@@ -27,4 +27,4 @@ let rowToMov (row:NumbersMovs.Row) =
     let julia = defaultArg row.Julia 0m
     let valor = row.Valor - julia
     categoria
-    |> Option.map (fun c -> Movimentacao.create c row.Data row.Nome valor)
+    |> Option.map (fun c -> Movimentacao.create c row.Nome valor)

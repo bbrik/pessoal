@@ -13,7 +13,6 @@ module DomainTypes =
     | Outros
 
     type Movimentacao = {
-        Data:DateTime
         Nome:string
         Valor:decimal
         Categoria:Categoria

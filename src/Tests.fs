@@ -19,12 +19,12 @@ let readerTests =
             Expect.equal actual.Grupo "débito" "Grupo equals"
             Expect.equal actual.Julia (Some 1101.5m) "Grupo equals"
 
-        testCase "Converter row csv em Movimentacao" <| fun () -> 
+        testCase "Converter row csv em Movimentacao" <| fun () ->
             let source = "Data;Nome;Valor;Pago;Categoria;Grupo;Julia"
                         + "\n30/12/17;foo;500,00;TRUE;conta;débito;10,00"
             let prov = Reader.parseString source
             let actual = prov.Rows |> Seq.head |> Reader.rowToMov
-            let expected = Some <| Movimentacao.create Conta (new DateTime(2017,12,30)) "foo" 490m
+            let expected = Some <| Movimentacao.create Conta "foo" 490m
             Expect.equal actual expected "row to mov"
 
         testCase "Converter string em Categoria" <| fun () ->
@@ -45,7 +45,7 @@ let readerTests =
 [<Tests>]
 let movimentacaoTests =
     testCase "Somar valores de seq de movimentacao" <| fun () ->
-        let createDummy = Movimentacao.create Conta DateTime.Now "foo"
+        let createDummy = Movimentacao.create Conta "foo"
         let movs = [
             createDummy 1m
             createDummy 10m
@@ -56,7 +56,7 @@ let movimentacaoTests =
         Expect.equal actual expected "soma igual"
 
 [<Tests>]
-let nomesTests = 
+let nomesTests =
     let table = Fixtures.simplifyNomeTable
     let findSimpleMatch = Nomes.findSimpleMatch table
     let simplifyNome = Nomes.simplifyNome table

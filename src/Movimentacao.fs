@@ -1,9 +1,8 @@
 module Pessoal.Movimentacao
 
 
-let create categoria data nome valor = {
-    Data=data 
-    Nome=nome 
+let create categoria nome valor = {
+    Nome=nome
     Valor=valor
     Categoria=categoria
 }
