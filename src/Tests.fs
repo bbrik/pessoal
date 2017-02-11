@@ -5,6 +5,27 @@ open Expecto
 
 
 [<Tests>]
+let processTests =
+    testList "Testes de processamento de movimentacoes" [
+        testCase "Total de valores por grupo" <| fun () ->
+            let source = [
+                Movimentacao.create Conta "Light" 100m
+                Movimentacao.create Conta "Ceg" 50m
+                Movimentacao.create Mercado "Zona Sul" 41m
+                Movimentacao.create Restaurante "Broz" 36m
+                Movimentacao.create Mercado "Zona Sul" 73m
+                Movimentacao.create Restaurante "Grao Integral" 19m
+            ]
+            let expected = [
+                Conta, 150m
+                Mercado, 114m
+                Restaurante, 55m
+            ]
+            let actual = Movimentacao.sumValoresByCategoria source |> Seq.toList
+            Expect.equal actual expected "totais por categoria equals"
+    ]
+
+[<Tests>]
 let readerTests =
     testList "Testes de leitura de csv" [
         testCase "Ler row csv" <| fun () ->

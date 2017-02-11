@@ -10,3 +10,8 @@ let create categoria nome valor = {
 let sumByValor movs =
     movs
     |> Seq.sumBy (fun m -> m.Valor)
+
+let sumValoresByCategoria movs =
+    movs
+    |> Seq.groupBy (fun m -> m.Categoria)
+    |> Seq.map (fun (cat, innerMovs) -> (cat, sumByValor innerMovs))
