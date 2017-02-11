@@ -1,0 +1,5 @@
+FSharp.Core
+FSharp.Data
+FSharp.Data.TypeProviders
+Expecto
+Expecto.FsCheck
