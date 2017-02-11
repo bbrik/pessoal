@@ -7,8 +7,11 @@ open Pessoal
 
 [<EntryPoint>]
 let main argv =
-    // runTestsInAssembly defaultConfig argv
+
     let movs = Reader.load argv.[0]
     let row = movs.Rows |> Seq.head
+
+    runTestsInAssembly defaultConfig argv |> ignore
+
     printfn "%A" row
     0

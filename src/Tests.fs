@@ -24,7 +24,7 @@ let readerTests =
                         + "\n30/12/17;foo;500,00;TRUE;conta;débito;10,00"
             let prov = Reader.parseString source
             let actual = prov.Rows |> Seq.head |> Reader.rowToMov
-            let expected = Some <| Movimentacao.create Conta Debito (new DateTime(2017,12,30)) "foo" 490m
+            let expected = Some <| Movimentacao.create Conta (new DateTime(2017,12,30)) "foo" 490m
             Expect.equal actual expected "row to mov"
 
         testCase "Converter string em Categoria" <| fun () ->
@@ -40,25 +40,12 @@ let readerTests =
                 let actual = Reader.parseCategoria s
                 let format = sprintf "%s = %A" s expected
                 Expect.equal actual expected format
-
-        testCase "Converter string em Grupo" <| fun () ->
-            let data = [
-                "débito", Some Debito
-                "debito", Some Debito
-                "mastercard", Some Mastercard
-                "visa", Some Visa
-                "qualquer outra coisa", None
-            ]
-            for (s, expected) in data do
-                let actual = Reader.parseGrupo s
-                let format = sprintf "%s = %A" s expected
-                Expect.equal actual expected format
     ]
 
 [<Tests>]
 let movimentacaoTests =
     testCase "Somar valores de seq de movimentacao" <| fun () ->
-        let createDummy = Movimentacao.create Conta Debito DateTime.Now "foo"
+        let createDummy = Movimentacao.create Conta DateTime.Now "foo"
         let movs = [
             createDummy 1m
             createDummy 10m

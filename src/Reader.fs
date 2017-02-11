@@ -22,17 +22,9 @@ let parseCategoria (s:string) =
     | "outros" -> Some Outros
     | _ -> None
 
-let parseGrupo (s:string) =
-    let s' = s.ToLowerInvariant ()
-    match s' with
-    | "débito" | "debito" -> Some Debito
-    | "mastercard" -> Some Mastercard
-    | "visa" -> Some Visa
-    | _ -> None
-
 let rowToMov (row:NumbersMovs.Row) =
-    let cat = parseCategoria row.Categoria
-    let gru = parseGrupo row.Grupo
+    let categoria = parseCategoria row.Categoria
     let julia = defaultArg row.Julia 0m
     let valor = row.Valor - julia
-    Option.Lift2 (fun c g -> Movimentacao.create c g row.Data row.Nome valor) cat gru
+    categoria
+    |> Option.map (fun c -> Movimentacao.create c row.Data row.Nome valor)
