@@ -15,3 +15,8 @@ let sumValoresByCategoria movs =
     movs
     |> Seq.groupBy (fun m -> m.Categoria)
     |> Seq.map (fun (cat, innerMovs) -> (cat, sumByValor innerMovs))
+
+let sumValoresByNome movs =
+    movs
+    |> Seq.groupBy (fun m -> m.Nome)
+    |> Seq.map (fun (cat, innerMovs) -> (cat, sumByValor innerMovs))

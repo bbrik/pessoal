@@ -7,6 +7,25 @@ open Expecto
 [<Tests>]
 let processTests =
     testList "Testes de processamento de movimentacoes" [
+        testCase "Total de valores por nome" <| fun () ->
+            let source = [
+                Movimentacao.create Conta "Light" 100m
+                Movimentacao.create Conta "Ceg" 50m
+                Movimentacao.create Mercado "Zona Sul" 41m
+                Movimentacao.create Restaurante "Broz" 36m
+                Movimentacao.create Mercado "Zona Sul" 73m
+                Movimentacao.create Restaurante "Grao Integral" 19m
+            ]
+            let expected = [
+                "Light", 100m
+                "Ceg", 50m
+                "Zona Sul", 114m
+                "Broz", 36m
+                "Grao Integral", 19m
+            ]
+            let actual = Movimentacao.sumValoresByNome source |> Seq.toList
+            Expect.equal actual expected "totais por nome equals"
+
         testCase "Total de valores por grupo" <| fun () ->
             let source = [
                 Movimentacao.create Conta "Light" 100m
