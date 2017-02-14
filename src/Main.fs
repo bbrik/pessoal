@@ -1,6 +1,7 @@
 module Main
 
 open System
+open System.IO
 open Expecto
 open Pessoal
 open Pessoal.Util
@@ -34,7 +35,8 @@ let printByNome movs =
 
 [<EntryPoint>]
 let main argv =
-    let rows = readFile argv.[0]
+    let filename = Path.Combine(Environment.CurrentDirectory, argv.[0])
+    let rows = readFile filename
     let movs = rowsToMovs rows
     printByCategoria movs
     let total = movs |> Movimentacao.sumByValor
