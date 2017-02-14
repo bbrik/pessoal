@@ -8,14 +8,16 @@ open Pessoal.Util
 
 let readFile filename =
     let provider = Reader.load filename
-    let rows = provider.Rows
+    provider.Rows
+
+let rowsToMovs rows =
     rows
     |> Seq.map Reader.rowToMov
     |> Seq.choose id
 
 let printCoisaValor (coisa, valor) =
-    let s = truncate 20 coisa
-    printfn "%20s %8.2M" s valor
+    let s = truncate 30 coisa
+    printfn "%30s %8.2M" s valor
 
 let printByCategoria movs =
     movs
@@ -32,10 +34,11 @@ let printByNome movs =
 
 [<EntryPoint>]
 let main argv =
-    let movs = readFile argv.[0]
+    let rows = readFile argv.[0]
+    let movs = rowsToMovs rows
     printByCategoria movs
     let total = movs |> Movimentacao.sumByValor
-    printfn "-----------------------------"
+    printfn "----------------------------------------------------------"
     printCoisaValor ("Total", total)
     printfn ""
     printByNome movs

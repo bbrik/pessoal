@@ -8,6 +8,8 @@ type NumbersMovs = CsvProvider<"NumbersMovSample.csv", ";",
                                 Schema="date,,decimal,,,,decimal option",
                                 Culture="pt-BR">
 
+let simplifyNome = Nomes.simplifyNome Fixtures.simplifyNomeTable
+
 let parseString s = NumbersMovs.Parse s
 
 let load (uri:string) = NumbersMovs.Load uri
@@ -26,5 +28,6 @@ let rowToMov (row:NumbersMovs.Row) =
     let categoria = parseCategoria row.Categoria
     let julia = defaultArg row.Julia 0m
     let valor = row.Valor - julia
+    let nome = simplifyNome row.Nome
     categoria
-    |> Option.map (fun c -> Movimentacao.create c row.Nome valor)
+    |> Option.map (fun c -> Movimentacao.create c nome valor)
